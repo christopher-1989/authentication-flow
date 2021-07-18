@@ -5,31 +5,44 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Provider, useSelector } from 'react-redux';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-// Our global authentication state, with default values
-export const AuthContext = createContext({
-  hasUser: false, 
-  setUser: () => {},
-});
-
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    hasUser: false,
+    loggedin: false,
+    userID: null,
+    signingOut: false,
   },
   reducers: {
-    user: (state) => {
-      console.log(state);
-      state.hasUser = !state.hasUser
+    toggleLoggedIn: (state) => {
+      state.loggedin = !state.loggedin
     },
   },
 })
 
-export const checkUser = state => state.hasUser;
-export const { user } = userSlice.actions;
+export const loadingSlice = createSlice({
+  name: 'loading',
+  initialState: {
+    loading: false
+  },
+  reducers: {
+    toggleLoadingStatus: (state) => {
+      state.loading = !state.loading
+    }
+  }
+})
 
+export const isLoggedIn = state => state.user.loggedin;
+export const isSigningOut = state => state.user.signingOut;
+export const { toggleLoggedIn } = userSlice.actions;
+
+export const isLoading = state => state.loading.loading;
+export const { toggleLoadingStatus } = loadingSlice.actions;
 
 export const store = configureStore({
-  reducer: userSlice.reducer,
+  reducer: {
+    user: userSlice.reducer,
+    loading: loadingSlice.reducer,
+  }
 })
 
 const LoginScreen = ( { navigation }) => {
@@ -37,7 +50,7 @@ const LoginScreen = ( { navigation }) => {
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Login</Text>
-      <Button title="Login" onPress={() => store.dispatch(user())} />
+      <Button title="Login" onPress={() => store.dispatch(toggleLoggedIn())} />
       <Button title="Signup" onPress={() => navigation.navigate('Signup')} />
     </View>
   );
@@ -48,7 +61,7 @@ const SignUpScreen = () => {
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Signup</Text>
-      <Button title="Signup" onPress={() => store.dispatch(user())} />
+      <Button title="Signup" onPress={() => store.dispatch(toggleLoggedIn())} />
     </View>
   );
 };
@@ -58,7 +71,7 @@ const ProfileScreen = () => {
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Profile</Text>
-      <Button title="Logout" onPress={() => store.dispatch(user())} />
+      <Button title="Logout" onPress={() => store.dispatch(toggleLoggedIn())} />
     </View>
   );
 };
@@ -68,7 +81,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Home</Text>
-      <Button title="Home" onPress={() => store.dispatch(user())} />
+      <Button title="Home" onPress={() => store.dispatch(toggleLoggedIn())} />
     </View>
   );
 };
@@ -78,7 +91,7 @@ const SettingsScreen = () => {
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Settings</Text>
-      <Button title="Settings" onPress={() => store.dispatch(user())} />
+      <Button title="Settings" onPress={() => store.dispatch(toggleLoggedIn())} />
     </View>
   );
 };
@@ -94,17 +107,17 @@ const SplashScreen = () => {
 const Stack = createStackNavigator();
 
 export const AppNavigator = () => {
-  const state = {isLoading: false, isSignout: false};
-  const check = useSelector(checkUser);
+  const loginStatus = useSelector(isLoggedIn);
+  const loadingStatus = useSelector(isLoading);
+  const signOutStatus = useSelector(isSigningOut);
 
-  console.log(check);
-  if (state.isLoading) {
+  if (loadingStatus) {
     return <SplashScreen />;
   }
 
   return (
     <Stack.Navigator>
-      {check ? (
+      {loginStatus ? (
         <>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
@@ -116,7 +129,7 @@ export const AppNavigator = () => {
             title: 'Sign in',
             // When logging out, a pop animation feels intuitive
             // You can remove this if you want the default 'push' animation
-            animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+            animationTypeForReplace: signOutStatus ? 'pop' : 'push',
           }} />
           <Stack.Screen name="Signup" component={SignUpScreen} />
         </>
