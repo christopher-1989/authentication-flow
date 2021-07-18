@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { State } from 'react-native-gesture-handler';
+import { Provider, useSelector } from 'react-redux';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 // Our global authentication state, with default values
 export const AuthContext = createContext({
@@ -10,58 +11,74 @@ export const AuthContext = createContext({
   setUser: () => {},
 });
 
+export const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    hasUser: false,
+  },
+  reducers: {
+    user: (state) => {
+      console.log(state);
+      state.hasUser = !state.hasUser
+    },
+  },
+})
+
+export const checkUser = state => state.hasUser;
+export const { user } = userSlice.actions;
+
+
+export const store = configureStore({
+  reducer: userSlice.reducer,
+})
+
 const LoginScreen = ( { navigation }) => {
-  const { setUser } = useContext(AuthContext);
 
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Login</Text>
-      <Button title="Login" onPress={() => setUser(true)} />
+      <Button title="Login" onPress={() => store.dispatch(user())} />
       <Button title="Signup" onPress={() => navigation.navigate('Signup')} />
     </View>
   );
 };
 
 const SignUpScreen = () => {
-  const { setUser } = useContext(AuthContext);
 
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Signup</Text>
-      <Button title="Signup" onPress={() => setUser(true)} />
+      <Button title="Signup" onPress={() => store.dispatch(user())} />
     </View>
   );
 };
 
 const ProfileScreen = () => {
-  const { setUser } = useContext(AuthContext);
 
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Profile</Text>
-      <Button title="Logout" onPress={() => setUser(false)} />
+      <Button title="Logout" onPress={() => store.dispatch(user())} />
     </View>
   );
 };
 
 const HomeScreen = () => {
-  const { setUser } = useContext(AuthContext);
 
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Home</Text>
-      <Button title="Home" onPress={() => setUser(false)} />
+      <Button title="Home" onPress={() => store.dispatch(user())} />
     </View>
   );
 };
 
 const SettingsScreen = () => {
-  const { setUser } = useContext(AuthContext);
 
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Settings</Text>
-      <Button title="Settings" onPress={() => setUser(false)} />
+      <Button title="Settings" onPress={() => store.dispatch(user())} />
     </View>
   );
 };
@@ -77,16 +94,17 @@ const SplashScreen = () => {
 const Stack = createStackNavigator();
 
 export const AppNavigator = () => {
-  const { hasUser } = useContext(AuthContext);
-  const state = {isLoading: false};
+  const state = {isLoading: false, isSignout: false};
+  const check = useSelector(checkUser);
 
+  console.log(check);
   if (state.isLoading) {
     return <SplashScreen />;
   }
 
   return (
     <Stack.Navigator>
-      {hasUser ? (
+      {check ? (
         <>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
@@ -94,7 +112,12 @@ export const AppNavigator = () => {
         </>
       ) : (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} options={{
+            title: 'Sign in',
+            // When logging out, a pop animation feels intuitive
+            // You can remove this if you want the default 'push' animation
+            animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+          }} />
           <Stack.Screen name="Signup" component={SignUpScreen} />
         </>
       )}      
@@ -105,14 +128,12 @@ export const AppNavigator = () => {
 const App = () => {
   // This is linked to our global authentication state.
   // We connect this in React to re-render components when changing this value.
-  const [hasUser, setUser] = useState(false);
-
   return (
-    <AuthContext.Provider value={{ hasUser, setUser }}>
+    <Provider store={store}>
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
-    </AuthContext.Provider>
+    </Provider>
   );
 };
 
