@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider, useSelector } from 'react-redux';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { CreateAccount } from './screens/CreateAccount';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -45,13 +46,13 @@ export const store = configureStore({
   }
 })
 
-const LoginScreen = ( { navigation }) => {
+const LoginScreen = ( { navigation } ) => {
 
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Login</Text>
       <Button title="Login" onPress={() => store.dispatch(toggleLoggedIn())} />
-      <Button title="Signup" onPress={() => navigation.navigate('Signup')} />
+      <Button title="Signup" onPress={() => navigation.navigate('CreateAccount')} />
     </View>
   );
 };
@@ -131,7 +132,7 @@ export const AppNavigator = () => {
             // You can remove this if you want the default 'push' animation
             animationTypeForReplace: signOutStatus ? 'pop' : 'push',
           }} />
-          <Stack.Screen name="Signup" component={SignUpScreen} />
+          <Stack.Screen name="CreateAccount" component={CreateAccount} />
         </>
       )}      
     </Stack.Navigator>
