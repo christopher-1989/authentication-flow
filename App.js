@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Provider, useSelector } from 'react-redux';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { CreateAccount } from './screens/CreateAccount';
+import { SignIn } from './screens/SignIn';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -82,7 +83,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.layout}>
       <Text style={styles.title}>Home</Text>
-      <Button title="Home" onPress={() => store.dispatch(toggleLoggedIn())} />
+      <Button title="Log Out" onPress={() => store.dispatch(toggleLoggedIn())} />
     </View>
   );
 };
@@ -126,7 +127,7 @@ export const AppNavigator = () => {
         </>
       ) : (
         <>
-          <Stack.Screen name="Login" component={LoginScreen} options={{
+          <Stack.Screen name="Login" component={SignIn} options={{
             title: 'Sign in',
             // When logging out, a pop animation feels intuitive
             // You can remove this if you want the default 'push' animation
