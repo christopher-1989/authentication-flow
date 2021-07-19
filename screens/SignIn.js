@@ -9,7 +9,7 @@ import { toggleLoggedIn } from "../App";
 
 
 
-export const SignIn = (props) => {  
+export const SignIn = ({ navigation }) => {  
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();

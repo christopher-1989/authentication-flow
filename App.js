@@ -127,13 +127,14 @@ export const AppNavigator = () => {
         </>
       ) : (
         <>
+          <Stack.Screen name="CreateAccount" component={CreateAccount} />
+
           <Stack.Screen name="Login" component={SignIn} options={{
             title: 'Sign in',
             // When logging out, a pop animation feels intuitive
             // You can remove this if you want the default 'push' animation
             animationTypeForReplace: signOutStatus ? 'pop' : 'push',
           }} />
-          <Stack.Screen name="CreateAccount" component={CreateAccount} />
         </>
       )}      
     </Stack.Navigator>

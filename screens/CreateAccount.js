@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   Text,
@@ -10,6 +10,8 @@ import {
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
 import { useTheme } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLoadingStatus, toggleLoggedIn } from "../App";
 
 const styles = StyleSheet.create({
   textBlock: {
@@ -39,15 +41,20 @@ const isValidInputs = state => {
   return validFields.length === fields.length;
 };
 
-class CreateAccountClass extends React.Component {
-  state = { errorMessage: null };
+export const CreateAccount = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [fName, setfName] = useState('');
+  const [lName, setlName] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordC, setPasswordC] = useState('');
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
-  onSubmit = () => {
-    if (!isValidInputs(this.state)) {
-      this.setState({ errorMessage: "An error occured." });
+
+  const onSubmit = () => {
+    if (isValidInputs([email, fName, lName, password])) {
+      setError("An error occured." );
     } else {
-      this.setState({ errorMessage: null });
-      const { email, fName, lName, password } = this.state;
 
       fetch("https://postman-echo.com/post", {
         method: "POST",
@@ -55,24 +62,24 @@ class CreateAccountClass extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email,
-          fName,
-          lName,
+          email: email,
+          fName: fName,
+          lName: lName,
           password
         })
       })
+        .then(dispatch(toggleLoadingStatus()))
         .then(res => res.json())
         .then(res => {
           console.log("res", res);
+          dispatch(toggleLoggedIn());
+          dispatch(toggleLoadingStatus());
         })
         .catch(err => {
           console.log("err", err);
         });
     }
   };
-
-  render() {
-    const { navigation } = this.props;
 
     return (
       <ScrollView
@@ -82,43 +89,33 @@ class CreateAccountClass extends React.Component {
         <TextField
           label="Email"
           placeholder="john.doe@example.com"
-          onChangeText={email => this.setState({ email })}
-        />
+          onChangeText={text =>  setEmail(text)}        />
         <TextField
           label="First Name"
           placeholder="John"
-          onChangeText={fName => this.setState({ fName })}
-        />
+          onChangeText={text =>  setfName(text)}        />
         <TextField
           label="Last Name"
           placeholder="Doe"
-          onChangeText={lName => this.setState({ lName })}
-        />
+          onChangeText={text =>  setlName(text)}        />
         <TextField
           label="Password"
           secureTextEntry
-          onChangeText={password => this.setState({ password })}
+          onChangeText={text => setPassword(text)}
         />
         <TextField
           label="Confirm Password"
           secureTextEntry
-          onChangeText={cPassword => this.setState({ cPassword })}
+          onChangeText={text => setPasswordC(text)}
         />
-        <ErrorText text={this.state.errorMessage} />
-        <Button text="Submit" onPress={this.onSubmit} />
+        <ErrorText text={error} />
+        <Button text="Submit" onPress={onSubmit} />
         <View style={styles.textBlock}>
           <Text style={styles.text}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text style={[styles.text, styles.link]}>Sign in.</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     );
   }
-}
-
-export const CreateAccount = (props) => {
-    const theme = useTheme();
-
-    return <CreateAccountClass {...props} theme={theme} />;
-}
