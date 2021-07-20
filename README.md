@@ -12,7 +12,7 @@ This project was undertaken to practice authenticating users. Various packages w
 
 The project began with a basic login screen using React Native and Expo. The first skills developed included using React-Navigation to toggle between screens.
 
-Not that the following line must be run if using expo: (taken directly from react-navigation docs)
+Note that the following line must be run if using expo: (taken directly from react-navigation docs)
 
 `expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view`
 
@@ -22,4 +22,4 @@ The Stack Navigator is seperated into two broad partitions depending on if the u
 
 ### Redux
 
-The global state was managed with redux. If the user is logged in, they will be
+The global state was managed with redux. Currently, the store keeps track of the Loading status, logged in status, signingOut and userID. If the App is loading such as waiting for an Async to resolve, the Splash screen will be shown. The Logged In status is used by the Stack Navigator to show appropriate screens to authorized or non-authorized users. The userID will be used to store the user's information that is returned from the server endpoint. The signingOut state is used to show a different graphic by the Navigator when the user is logging out.
