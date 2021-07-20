@@ -3,10 +3,8 @@ import { ScrollView } from "react-native";
 
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
-import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleLoggedIn } from "../App";
-
+import { toggleLoggedIn } from "../features/UserSlice";
 
 
 export const SignIn = ({ navigation }) => {  

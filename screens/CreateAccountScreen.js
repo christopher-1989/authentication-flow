@@ -9,9 +9,9 @@ import {
 
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
-import { useTheme } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleLoadingStatus, toggleLoggedIn } from "../App";
+import { toggleLoadingStatus } from "../features/LoadingSlice";
+import { toggleLoggedIn } from "../features/UserSlice";
 
 const styles = StyleSheet.create({
   textBlock: {
