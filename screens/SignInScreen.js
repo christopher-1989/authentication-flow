@@ -4,7 +4,7 @@ import { ScrollView } from "react-native";
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleLoggedIn } from "../features/UserSlice";
+import { RESTORE_TOKEN, toggleLoggedIn } from "../features/UserSlice";
 
 
 export const SignIn = ({ navigation }) => {  
@@ -37,7 +37,10 @@ export const SignIn = ({ navigation }) => {
           autoCapitalize="none"
         />
         {/* <ErrorText text={error} /> */}
-        <Button text="Submit" onPress={() => dispatch(toggleLoggedIn())} />
+        <Button text="Submit" onPress={() => {
+          dispatch(RESTORE_TOKEN(email))
+          dispatch(toggleLoggedIn())
+        }} />
       </ScrollView>
     );
 }
