@@ -10,7 +10,7 @@ export const userSlice = createSlice({
     },
     reducers: {
       RESTORE_TOKEN: (state, action) => {
-        state.userToken = action.payload;
+        state.userToken = action.payload.token;
         //state.isLoading = false,
       },
       SIGN_IN: (state, action) => {

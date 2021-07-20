@@ -38,7 +38,6 @@ export const SignIn = ({ navigation }) => {
         {/* <ErrorText text={error} /> */}
         <Button text="Submit" onPress={() => {
           dispatch(SIGN_IN({token: email}))
-          dispatch(toggleLoggedIn())
         }} />
       </ScrollView>
     );

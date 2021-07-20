@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import { CreateAccount } from '../screens/CreateAccountScreen';
 import { SignIn } from '../screens/SignInScreen';
 import { store } from './store';
@@ -11,12 +11,35 @@ import { ProfileScreen } from '../screens/ProfileScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { SplashScreen } from '../screens/SplashScreen';
 import { HomeScreen } from '../screens/HomeScreen';
-
+import { SecureStore } from 'expo-secure-store';
+import { RESTORE_TOKEN } from '../features/UserSlice';
 
 
 const Stack = createStackNavigator();
-
 export const AppNavigator = () => {
+  const dispatch = useDispatch();
+
+  
+  useEffect(() => {
+    const bootstrapAsync = async () => {
+      let userToken;
+
+      try {
+        console.log('trying to restore from securestore');
+        userToken = await SecureStore.getItemAsync('userToken');
+      } catch (e) {
+        // Restoring token failed
+      }
+      // After restoring token, we may need to validate it in production apps
+
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      dispatch(RESTORE_TOKEN({token: userToken }));
+    };
+
+    bootstrapAsync();
+  }, []);
+
   const loginStatus = useSelector(isLoggedIn);
   const loadingStatus = useSelector(isLoading);
   const signOutStatus = useSelector(isSigningOut);
@@ -49,8 +72,8 @@ export const AppNavigator = () => {
 };
 
 const App = () => {
-  // This is linked to our global authentication state.
-  // We connect this in React to re-render components when changing this value.
+  
+
   return (
     <Provider store={store}>
       <NavigationContainer>
