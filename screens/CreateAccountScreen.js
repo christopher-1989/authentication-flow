@@ -11,7 +11,7 @@ import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
-import { toggleLoggedIn } from "../features/UserSlice";
+import { SIGN_IN } from "../features/UserSlice";
 
 const styles = StyleSheet.create({
   textBlock: {
@@ -72,7 +72,10 @@ export const CreateAccount = ({ navigation }) => {
         .then(res => res.json())
         .then(res => {
           console.log("res", res);
-          dispatch(toggleLoggedIn());
+          if (res.data.email) {
+            //check if there is an email.. This is a fake token
+            dispatch(SIGN_IN({token: res.data.email}));
+          }
           dispatch(toggleLoadingStatus());
         })
         .catch(err => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { styles } from '../components/Styles';
-import { toggleLoggedIn } from '../features/UserSlice';
+import { LOG_OUT } from '../features/UserSlice';
 
 export const HomeScreen = () => {
     const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export const HomeScreen = () => {
     return (
       <View style={styles.layout}>
         <Text style={styles.title}>Home</Text>
-        <Button title="Log Out" onPress={() => dispatch(toggleLoggedIn())} />
+        <Button title="Log Out" onPress={() => dispatch(LOG_OUT())} />
       </View>
     );
   };

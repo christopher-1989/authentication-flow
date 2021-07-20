@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
-
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { RESTORE_TOKEN, toggleLoggedIn } from "../features/UserSlice";
+import { SIGN_IN, toggleLoggedIn } from "../features/UserSlice";
 
 
 export const SignIn = ({ navigation }) => {  
@@ -38,7 +37,7 @@ export const SignIn = ({ navigation }) => {
         />
         {/* <ErrorText text={error} /> */}
         <Button text="Submit" onPress={() => {
-          dispatch(RESTORE_TOKEN(email))
+          dispatch(SIGN_IN({token: email}))
           dispatch(toggleLoggedIn())
         }} />
       </ScrollView>

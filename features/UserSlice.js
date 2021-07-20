@@ -1,25 +1,31 @@
-import React from "react";
+
 import { createSlice } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
 
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-      loggedin: false,
-      userID: null,
+      userToken: null,
       signingOut: false,
     },
     reducers: {
-      toggleLoggedIn: (state) => {
-        state.loggedin = !state.loggedin
-      },
       RESTORE_TOKEN: (state, action) => {
-        state.userID = action.payload;
-        console.log(state)
+        state.userToken = action.payload;
+        //state.isLoading = false,
+      },
+      SIGN_IN: (state, action) => {
+          state.isSigningOut = false;
+          state.userToken = action.payload.token;
+      },
+      LOG_OUT: (state) => {
+        state.userToken = null;
+        state.signingOut = true;
+
       }
     },
   })
 
-export const isLoggedIn = state => state.user.loggedin;
+export const isLoggedIn = state => state.user.userToken;
 export const isSigningOut = state => state.user.signingOut;
-export const { toggleLoggedIn, RESTORE_TOKEN } = userSlice.actions;
+export const { RESTORE_TOKEN, SIGN_IN, LOG_OUT } = userSlice.actions;
 export const userReducer = userSlice.reducer
