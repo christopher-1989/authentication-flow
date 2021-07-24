@@ -25,15 +25,16 @@ export const AppNavigator = () => {
       let userToken;
 
       try {
-        console.log('trying to restore from securestore');
+        console.log('trying to restore token from securestore');
         userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
         // Restoring token failed
+        console.log('restoring token failed')
       }
       // After restoring token, we may need to validate it in production apps
-
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
+      console.log(`setting token: ${userToken}`); //If userToken is undefined, then the create account and login pages will be shown to the user
       dispatch(RESTORE_TOKEN({token: userToken }));
     };
 
@@ -73,7 +74,6 @@ export const AppNavigator = () => {
 
 const App = () => {
   
-
   return (
     <Provider store={store}>
       <NavigationContainer>

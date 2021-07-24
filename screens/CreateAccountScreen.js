@@ -62,9 +62,9 @@ export const CreateAccount = ({ navigation }) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email: email,
-          fName: fName,
-          lName: lName,
+          email,
+          fName,
+          lName,
           password
         })
       })
