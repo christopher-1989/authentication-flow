@@ -1,6 +1,4 @@
-
 import { createSlice } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from "react-redux";
 
 export const userSlice = createSlice({
     name: 'user',
@@ -20,7 +18,6 @@ export const userSlice = createSlice({
       LOG_OUT: (state) => {
         state.userToken = null;
         state.signingOut = true;
-
       }
     },
   })

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
-import { useSelector, useDispatch } from "react-redux";
-import { SIGN_IN, toggleLoggedIn } from "../features/UserSlice";
+import { useDispatch } from "react-redux";
+import { SIGN_IN } from "../features/UserSlice";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
 
 
@@ -19,7 +19,7 @@ const isValidInputs = state => {
   return validFields.length === fields.length;
 };
 
-export const SignIn = ({ navigation }) => {  
+export const SignIn = () => {  
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);

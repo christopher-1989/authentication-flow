@@ -6,10 +6,9 @@ import {
   StyleSheet,
   View
 } from "react-native";
-
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
 import { SIGN_IN } from "../features/UserSlice";
 
@@ -52,7 +51,7 @@ export const CreateAccount = ({ navigation }) => {
 
 
   const onSubmit = () => {
-    if (isValidInputs([email, fName, lName, password])) {
+    if (isValidInputs([email, fName, lName, password])) { //change to !isValidInputs
       setError("An error occured." );
     } else {
 
