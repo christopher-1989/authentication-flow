@@ -31,39 +31,24 @@ export const SignIn = () => {
       if (validator.isEmail(emailToValidate) === true) {
           return true;
       } else {
-        const oldError = error;
         setError("Please enter a valid email")
         return false;
       }
     };
     
-    const passwordRequirements = pwToValidate => {
-      const requirements = { 
-          minLength: 6, 
-          minLowercase: 1, 
-          minUppercase: 1, 
-          minNumbers: 1, 
-          minSymbols: 2, 
-          returnScore: false, 
-          pointsPerUnique: 1, 
-          pointsPerRepeat: 0.5, 
-          pointsForContainingLower: 10, 
-          pointsForContainingUpper: 10, 
-          pointsForContainingNumber: 10, 
-          pointsForContainingSymbol: 10 
-      }
-      if(validator.isStrongPassword(pwToValidate, requirements) === true) {
-          return true;
+    const isEmptyPW = pwToCheck => {
+      if (pwToCheck === '') {
+        console.log(pwToCheck);
+        setError("Enter your password")
+        return true;
       } else {
-        const oldError = error;
-        setError(`Please enter a stronger password. Passwords should be at least ${requirements.minLength} characters long, have at least ${requirements.minLowercase} lowercase, ${requirements.minUppercase} uppercase, ${requirements.minNumbers} number, and ${requirements.minSymbols} symbol`)
         return false;
       }
-    };
+    }
 
     const onSubmit = () => {
       setError(null);
-      if (validateEmail(email) === false && passwordRequirements(password) === false) {
+      if (validateEmail(email) === false || isEmptyPW(password) === true) {
         return;
       } else {
 
