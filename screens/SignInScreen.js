@@ -30,7 +30,7 @@ export const SignIn = () => {
         setError('An error occured.')
       } else {
 
-        fetch("https://postman-echo.com/post", {
+        fetch("http://192.168.1.111:3000/auth/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -48,11 +48,12 @@ export const SignIn = () => {
             //check if there is an email.. this is a placeholder and should be a token
             dispatch(SIGN_IN({token: res.data.email}))
           }
-          dispatch(toggleLoadingStatus());
+
         })
         .catch(err => {
           console.log('err', err);
         });
+        dispatch(toggleLoadingStatus());
       }
     };
 

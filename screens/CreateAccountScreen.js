@@ -11,6 +11,7 @@ import { Button } from "../components/Button";
 import { useDispatch } from "react-redux";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
 import { SIGN_IN } from "../features/UserSlice";
+import { isEmail } from 'validator/lib/isEmail';
 
 const styles = StyleSheet.create({
   textBlock: {
@@ -51,7 +52,7 @@ export const CreateAccount = ({ navigation }) => {
 
 
   const onSubmit = () => {
-    if (isValidInputs([email, fName, lName, password])) { //change to !isValidInputs
+    if (!isValidInputs([email, fName, lName, password])) { //change to !isValidInputs
       setError("An error occured." );
     } else {
 
