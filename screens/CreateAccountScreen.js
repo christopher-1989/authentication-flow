@@ -56,7 +56,8 @@ export const CreateAccount = ({ navigation }) => {
       setError("An error occured." );
     } else {
 
-      fetch("https://postman-echo.com/post", {
+      fetch("http://192.168.1.111:3000/auth/signup", {
+      // fetch("https://postman-echo.com/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
