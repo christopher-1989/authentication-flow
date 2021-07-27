@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
 import { useDispatch } from "react-redux";
-import { SIGN_IN, SAVE_TOKEN } from "../features/UserSlice";
+import { SIGN_IN } from "../features/UserSlice";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
 const validator = require('validator');
 

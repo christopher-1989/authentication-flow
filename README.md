@@ -1,4 +1,4 @@
-# Demonstration of authentication flow
+# Demonstration of authentication flow with express backend and mongo database
 
 ## Getting started
 
@@ -8,7 +8,7 @@ Running `expo start` in the root directory will start the Metro bundler.
 
 ### Introduction
 
-This project was undertaken to practice authenticating users. Various packages were used to create login screens that would have data persist throughout the app and send asynchronous requests using _Postman_ to a hypothetical server endpoint. _React-Navigation_ was used with a Stack-Navigator that new screens could be pushed-to or popped-from. _Redux_ was used as the global store.
+This Expo project was undertaken to practice authenticating users. Various packages were used to create login screens that would have data persist throughout the app and send asynchronous requests to an _Express.js server_ endpoint. _React-Navigation_ was used with a Stack-Navigator that new screens could be pushed-to or popped-from. _Redux_ was used as the global store with _Mongodb_ the database of users. Client side validation was used before requests were made to the server.
 
 ---
 
@@ -16,7 +16,7 @@ This project was undertaken to practice authenticating users. Various packages w
 
 The project began with a basic login screen using React Native and Expo. The first skills developed included using React-Navigation to toggle between screens.
 
-Note that the following line must be run if using expo: (taken directly from react-navigation docs)
+Note that the following line must be run during installation when using Expo: (taken directly from react-navigation docs)
 
 `expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view`
 
@@ -26,4 +26,14 @@ The Stack Navigator is seperated into two broad partitions depending on if the u
 
 ### Redux
 
-The global state was managed with redux. Currently, the store keeps track of the Loading status, logged in status, signingOut and userID. If the App is loading such as waiting for an Async to resolve, the Splash screen will be shown. The Logged In status is used by the Stack Navigator to show appropriate screens to authorized or non-authorized users. The userID will be used to store the user's information that is returned from the server endpoint. The signingOut state is used to show a different graphic by the Navigator when the user is logging out.
+The global state is managed with redux. The store keeps track of the Loading status, logged in status, signingOut, userToken and userName. If the App is loading such as waiting for an Asyncronous request to resolve, the Splash screen will be shown. The Logged In status is used by the Stack Navigator to show appropriate screens to authenticated users. The userName is used to store the user's email that they submitted when logging in. After a successful signup or login, the user's ID that is returned from the database is stored in _SecureStore_ as well as the _redux state_ to persist while using the app - and even after closing and reopening the app. The signingOut state is used to show a different graphic by the Navigator when the user is logging out.
+
+### Client-side validation
+
+The client side validation mainly uses _validation.js_. Functions include:
+
+- validating an email;
+- ensuring both passwords match;
+- validating name fields are not empty;
+- validating minimum password requirements; and
+- validating that the password field is not empty.

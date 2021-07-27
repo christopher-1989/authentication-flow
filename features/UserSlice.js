@@ -20,10 +20,6 @@ export const userSlice = createSlice({
       RESTORE_TOKEN: (state, action) => {
         state.userToken = action.payload.userToken;
       },
-      SAVE_TOKEN : (state, action) => {
-        console.log(action.payload);
-        state.userToken = action.payload.userToken;
-      },
       SIGN_IN: (state, action) => {
         state.isSigningOut = false;
         state.userToken = action.payload.userToken;
