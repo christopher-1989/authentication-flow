@@ -28,6 +28,8 @@ The Stack Navigator is seperated into two broad partitions depending on if the u
 
 The global state is managed with redux. The store keeps track of the Loading status, logged in status, signingOut, userToken and userName. If the App is loading such as waiting for an Asyncronous request to resolve, the Splash screen will be shown. The Logged In status is used by the Stack Navigator to show appropriate screens to authenticated users. The userName is used to store the user's email that they submitted when logging in. After a successful signup or login, the user's ID that is returned from the database is stored in _SecureStore_ as well as the _redux state_ to persist while using the app - and even after closing and reopening the app. The signingOut state is used to show a different graphic by the Navigator when the user is logging out.
 
+---
+
 ### Client-side validation
 
 The client side validation mainly uses _validation.js_. Functions include:
@@ -37,6 +39,8 @@ The client side validation mainly uses _validation.js_. Functions include:
 - validating name fields are not empty;
 - validating minimum password requirements; and
 - validating that the password field is not empty.
+
+---
 
 ### Server/Backend/MongoDB
 
