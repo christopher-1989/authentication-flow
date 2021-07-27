@@ -3,23 +3,10 @@ import { ScrollView } from "react-native";
 import { TextField, ErrorText } from "../components/Form";
 import { Button } from "../components/Button";
 import { useDispatch } from "react-redux";
-import { SIGN_IN } from "../features/UserSlice";
+import { SIGN_IN, SAVE_TOKEN } from "../features/UserSlice";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
 const validator = require('validator');
 
-
-
-const isValidInputs = state => {
-  const fields = ["email", "password"];
-  const validArray = fields.map(field => {
-    if (!state[field] || state[field].length === 0) {
-      return false;
-    }
-    return true;
-  });
-  const validFields = validArray.filter(valid => valid);
-  return validFields.length === fields.length;
-};
 
 export const SignIn = () => {  
     const [email, setEmail] = useState('');
@@ -61,15 +48,14 @@ export const SignIn = () => {
           body: JSON.stringify({
             email,
             password
-          })
+          }),
         })
         .then(dispatch(toggleLoadingStatus()))
         .then(res => res.json())
         .then(res => {
           console.log("res", res);
           if (res.message) {
-            //check if there is an email.. this is a placeholder and should be a token
-            dispatch(SIGN_IN({token: res.message}))
+            dispatch(SIGN_IN({userToken: res.userToken}))
           } else if (res.error) {
             setError(res.error);
           }

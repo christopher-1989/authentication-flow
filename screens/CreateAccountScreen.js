@@ -11,7 +11,7 @@ import { Button } from "../components/Button";
 import { useDispatch } from "react-redux";
 import { toggleLoadingStatus } from "../features/LoadingSlice";
 import { SIGN_IN } from "../features/UserSlice";
-import { isEmail } from 'validator/lib/isEmail';
+const validator = require("validator");
 
 const styles = StyleSheet.create({
   textBlock: {
@@ -28,19 +28,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const isValidInputs = state => {
-  const fields = ["email", "fName", "lName", "password", "cPassword"];
-  const validArray = fields.map(field => {
-    if (!state[field] || state[field].length === 0) {
-      return false;
-    }
-    return true;
-  });
-
-  const validFields = validArray.filter(valid => valid);
-  return validFields.length === fields.length;
-};
-
 export const CreateAccount = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [fName, setfName] = useState('');
@@ -49,6 +36,42 @@ export const CreateAccount = ({ navigation }) => {
   const [passwordC, setPasswordC] = useState('');
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+
+  const validateEmail = emailToValidate => {
+    if (validator.isEmail(emailToValidate) === true) {
+        return true;
+    } else {
+      setError("Please enter a valid email")
+      return false;
+    }
+  };
+
+  const passwordsMatch = (pw1, pw2) => {
+    if (pw1 !== pw2) {
+      setError("Passwords do not match");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  const isEmptyFN = fnToCheck => {
+    if (fnToCheck === '') {
+      setError("Enter your First Name")
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  const isEmptyLN = lnToCheck => {
+    if (lnToCheck === '') {
+      setError("Enter your Last Name")
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const passwordRequirements = pwToValidate => {
     const requirements = { 
@@ -68,16 +91,15 @@ export const CreateAccount = ({ navigation }) => {
     if(validator.isStrongPassword(pwToValidate, requirements) === true) {
         return true;
     } else {
-      const oldError = error;
-      setError(`Please enter a valid password. Passwords should be at least ${requirements.minLength} characters long, have at least ${requirements.minLowercase} lowercase, ${requirements.minUppercase} uppercase, ${requirements.minNumbers} number, and ${requirements.minSymbols} symbol`)
+      setError(`Please enter a valid password.\nPasswords should be at least ${requirements.minLength} characters long, have at least ${requirements.minLowercase} lowercase, ${requirements.minUppercase} uppercase, ${requirements.minNumbers} number, and ${requirements.minSymbols} symbol`)
       return false;
     }
   };
 
   const onSubmit = () => {
-
-    if (!isValidInputs([email, fName, lName, password])) { //change to !isValidInputs
-      setError("An error occured." );
+    setError(null);
+    if(validateEmail(email) === false || isEmptyFN(fName) === true || isEmptyLN(lName) === true || passwordRequirements(password) === false || passwordsMatch(password, passwordC) === false) {
+      return;
     } else {
 
       fetch("http://192.168.1.111:3000/auth/signup", {
@@ -97,9 +119,10 @@ export const CreateAccount = ({ navigation }) => {
         .then(res => res.json())
         .then(res => {
           console.log("res", res);
-          if (res.data.email) {
-            //check if there is an email.. This is a fake token
-            dispatch(SIGN_IN({token: res.data.email}));
+          if (res._id) {
+            dispatch(SIGN_IN({userToken: res.userToken}));
+          } else if (res.error) {
+            setError(res.error);
           }
           dispatch(toggleLoadingStatus());
         })

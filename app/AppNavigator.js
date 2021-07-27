@@ -7,7 +7,7 @@ import { ProfileScreen } from '../screens/ProfileScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { SplashScreen } from '../screens/SplashScreen';
 import { HomeScreen } from '../screens/HomeScreen';
-import { SecureStore } from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
 import { RESTORE_TOKEN } from '../features/UserSlice';
 import { CreateAccount } from '../screens/CreateAccountScreen';
 import { SignIn } from '../screens/SignInScreen';
@@ -20,9 +20,7 @@ export const AppNavigator = () => {
   useEffect(() => {
     const bootstrapAsync = async () => {
       let userToken;
-
       try {
-        console.log('trying to restore token from securestore');
         userToken = await SecureStore.getItemAsync('userToken');
       } catch (e) {
         // Restoring token failed
@@ -31,8 +29,8 @@ export const AppNavigator = () => {
       // After restoring token, we may need to validate it in production apps
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      console.log(`setting token: ${userToken}`); //If userToken is undefined, then the create account and login pages will be shown to the user
-      dispatch(RESTORE_TOKEN({token: userToken }));
+      //If userToken is undefined, then the create account and login pages will be shown to the user
+      dispatch(RESTORE_TOKEN({userToken: userToken }));
     };
 
     bootstrapAsync();
