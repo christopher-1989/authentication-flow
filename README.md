@@ -37,3 +37,11 @@ The client side validation mainly uses _validation.js_. Functions include:
 - validating name fields are not empty;
 - validating minimum password requirements; and
 - validating that the password field is not empty.
+
+### Server/Backend/MongoDB
+
+The server is the server.js running from [this project](https://github.com/christopher-1989/single-page-auth-hash-sanitation-validation)
+From the root directory of the project run `nodemon server.js`.
+
+The database is set up in the same project. Connection to the database is done via mongosh:
+`mongosh "mongodb://localhost:27017/demo"` where demo is the name of the database set up in the project.
