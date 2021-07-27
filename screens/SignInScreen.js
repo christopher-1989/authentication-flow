@@ -54,7 +54,7 @@ export const SignIn = () => {
         .then(res => res.json())
         .then(res => {
           console.log("res", res);
-          if (res.message) {
+          if (res.userToken) {
             dispatch(SIGN_IN({userToken: res.userToken}))
           } else if (res.error) {
             setError(res.error);

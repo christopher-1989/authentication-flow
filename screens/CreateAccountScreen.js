@@ -39,6 +39,7 @@ export const CreateAccount = ({ navigation }) => {
 
   const validateEmail = emailToValidate => {
     if (validator.isEmail(emailToValidate) === true) {
+        setEmail(validator.normalizeEmail(emailToValidate, {all_lowercase: true} ))
         return true;
     } else {
       setError("Please enter a valid email")
@@ -101,7 +102,6 @@ export const CreateAccount = ({ navigation }) => {
     if(validateEmail(email) === false || isEmptyFN(fName) === true || isEmptyLN(lName) === true || passwordRequirements(password) === false || passwordsMatch(password, passwordC) === false) {
       return;
     } else {
-
       fetch("http://192.168.1.111:3000/auth/signup", {
       // fetch("https://postman-echo.com/post", {
         method: "POST",
@@ -119,7 +119,7 @@ export const CreateAccount = ({ navigation }) => {
         .then(res => res.json())
         .then(res => {
           console.log("res", res);
-          if (res._id) {
+          if (res.userToken) {
             dispatch(SIGN_IN({userToken: res.userToken}));
           } else if (res.error) {
             setError(res.error);
