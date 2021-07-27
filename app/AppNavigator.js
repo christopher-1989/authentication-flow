@@ -34,7 +34,7 @@ export const AppNavigator = () => {
     };
 
     bootstrapAsync();
-  }, []);
+  }, [loginStatus]);
 
   const loginStatus = useSelector(isLoggedIn);
   const loadingStatus = useSelector(isLoading);

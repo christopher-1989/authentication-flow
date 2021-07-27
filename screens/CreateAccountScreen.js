@@ -120,7 +120,7 @@ export const CreateAccount = ({ navigation }) => {
         .then(res => {
           console.log("res", res);
           if (res.userToken) {
-            dispatch(SIGN_IN({userToken: res.userToken}));
+            dispatch(SIGN_IN({userToken: res.userToken, userName: email}));
           } else if (res.error) {
             setError(res.error);
           }

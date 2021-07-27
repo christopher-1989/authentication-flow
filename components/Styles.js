@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     },
     pressable: {
       justifyContent: 'center',
-      backgroundColor: '#D22322',
+      backgroundColor: '#0b925e',
       height: 125,
       width: 125,
       margin: 10,
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
       textAlign: 'center'
     },
     button: {
-      backgroundColor: "#D22322",
+      backgroundColor: "#0b925e",
       paddingVertical: 10,
       paddingHorizontal: 45,
       alignItems: "center",

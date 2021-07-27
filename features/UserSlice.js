@@ -13,6 +13,7 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
       userToken: null,
+      userName: null,
       signingOut: false,
     },
     reducers: {
@@ -26,6 +27,7 @@ export const userSlice = createSlice({
       SIGN_IN: (state, action) => {
         state.isSigningOut = false;
         state.userToken = action.payload.userToken;
+        state.userName = action.payload.userName;
         save('userToken', state.userToken);
         },
       LOG_OUT: (state) => {
@@ -38,5 +40,6 @@ export const userSlice = createSlice({
 
 export const isLoggedIn = state => state.user.userToken;
 export const isSigningOut = state => state.user.signingOut;
+export const userName = state => state.user.userName;
 export const { RESTORE_TOKEN, SAVE_TOKEN, SIGN_IN, LOG_OUT } = userSlice.actions;
 export const userReducer = userSlice.reducer

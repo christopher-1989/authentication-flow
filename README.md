@@ -1,5 +1,9 @@
 # Demonstration of authentication flow
 
+## Getting started
+
+Running `expo start` in the root directory will start the Metro bundler.
+
 ## Project overview
 
 ### Introduction
