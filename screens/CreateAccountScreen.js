@@ -124,11 +124,15 @@ export const CreateAccount = ({ navigation }) => {
           } else if (res.error) {
             setError(res.error);
           }
-          dispatch(toggleLoadingStatus());
         })
         .catch(err => {
           console.log("err", err);
+          const errorMessage = err.toString();
+          if (errorMessage === "TypeError: Network request failed") {
+            setError("Network connection failed")
+          }
         });
+        dispatch(toggleLoadingStatus());
     }
   };
 

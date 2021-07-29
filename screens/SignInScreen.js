@@ -62,7 +62,11 @@ export const SignIn = () => {
 
         })
         .catch(err => {
-          console.log('err', err);
+          console.log("err", err);
+          const errorMessage = err.toString();
+          if (errorMessage === "TypeError: Network request failed") {
+            setError("Network connection failed")
+          }
         });
         dispatch(toggleLoadingStatus());
       }
