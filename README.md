@@ -52,4 +52,4 @@ The database is set up in the same project. Connection to the database is done v
 
 ### Demonstration
 
-A recording of the functionality can be found [here] (https://github.com/christopher-1989/authentication-flow-express-server-mongodb/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2012%20Pro%20Max%20-%202021-09-28%20at%2017.01.08.mp4?raw=true)
+A recording of the functionality can be found [here](https://github.com/christopher-1989/authentication-flow-express-server-mongodb/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2012%20Pro%20Max%20-%202021-09-28%20at%2017.01.08.mp4?raw=true)
