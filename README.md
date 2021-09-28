@@ -26,7 +26,7 @@ The Stack Navigator is seperated into two broad partitions depending on if the u
 
 ### Redux
 
-The global state is managed with redux. The store keeps track of the Loading status, logged in status, signingOut, userToken and userName. If the App is loading such as waiting for an Asyncronous request to resolve, the Splash screen will be shown. The Logged In status is used by the Stack Navigator to show appropriate screens to authenticated users. The userName is used to store the user's email that they submitted when logging in. After a successful signup or login, the user's ID that is returned from the database is stored in _SecureStore_ as well as the _redux state_ to persist while using the app - and even after closing and reopening the app. The signingOut state is used to show a different graphic by the Navigator when the user is logging out.
+The global state is managed with redux. The store keeps track of the Loading status, logged in status, signingOut, userToken and userName. If the App is loading such as waiting for an Asynchronous request to resolve, the Splash screen will be shown. The Logged In status is used by the Stack Navigator to show appropriate screens to authenticated users. The userName is used to store the user's email that they submitted when logging in. After a successful signup or login, the user's ID that is returned from the database is stored in _SecureStore_ as well as the _redux state_ to persist while using the app - and even after closing and reopening the app. The signingOut state is used to show a different graphic by the Navigator when the user is logging out.
 
 ---
 
@@ -49,3 +49,7 @@ From the root directory of the project run `nodemon server.js`.
 
 The database is set up in the same project. Connection to the database is done via mongosh:
 `mongosh "mongodb://localhost:27017/demo"` where demo is the name of the database set up in the project.
+
+### Demonstration
+
+A recording of the functionality can be found [here] (https://github.com/christopher-1989/authentication-flow-express-server-mongodb/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2012%20Pro%20Max%20-%202021-09-28%20at%2017.01.08.mp4?raw=true)
